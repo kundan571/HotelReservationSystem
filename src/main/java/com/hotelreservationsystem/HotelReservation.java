@@ -1,7 +1,54 @@
 package com.hotelreservationsystem;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class HotelReservation {
+
+    static ArrayList<HotelDetails> hotelDetails = new ArrayList<>();
+    public static HotelReservation hotelReservation = new HotelReservation();
+    public static Scanner scanner = new Scanner(System.in);
+
+    void addHotelDetails() {
+        System.out.println("Enter how many hotel you want to add:");
+        int noOfHotel = scanner.nextInt();
+        for (int i = 0; i < noOfHotel; i++) {
+            System.out.println("Enter Hotel name");
+            String name = scanner.next();
+            System.out.println("Enter the hotel rate");
+            int rate = scanner.nextInt();
+            HotelDetails hotel1 = new HotelDetails(name, rate);
+            hotelDetails.add(hotel1);
+            System.out.println(hotelDetails.toString());
+        }
+    }
+
+    public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("ddMMMyyyy");
+
+    void cheapestHotel(String startDate, String endDate) {
+        addHotelDetails();
+        LocalDate startDate1 = LocalDate.parse(startDate, DATE_FORMAT);
+        LocalDate endDate1 = LocalDate.parse(endDate, DATE_FORMAT);
+        long days = ChronoUnit.DAYS.between(startDate1, endDate1);
+
+        List<HotelDetails> rates = hotelDetails.stream().map(hotelData -> {
+            HotelDetails result = new HotelDetails();
+            result.setName(hotelData.getName());
+            result.setRate(hotelData.getRate());
+            result.setTotalRate((int) (hotelData.getRate() * days));
+            return result;
+        }).sorted(Comparator.comparing(HotelDetails::getTotalRate)).collect(Collectors.toList());
+
+        System.out.println("The total days are : " + days);
+        rates.forEach(System.out::println);
+
+    }
+
     public static void main(String[] args) {
-        System.out.println("Welcome To Hotel Reservation Program: ");
+        hotelReservation.cheapestHotel("10Sept2023", "12Sept2023");
+
     }
 }
