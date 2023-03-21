@@ -59,18 +59,40 @@ public class HotelReservation {
             int weekend = scanner.nextInt();
             System.out.println("Enter ratings of hotel");
             int ratings = scanner.nextInt();
-            HotelDetails hotel1 = new HotelDetails(name,weekDay,weekend,ratings);
+            HotelDetails hotel1 = new HotelDetails(name, weekend, weekDay, ratings);
             hotelDetails.add(hotel1);
             System.out.println(hotelDetails.toString());
-
         }
+    }
 
+    void cheapestHotelWeekdayWeekend(String startDate, String endDate) {
+        addWeekDayAndWeekendRates();
+        LocalDate startDate2 = LocalDate.parse(startDate, DATE_FORMAT);
+        LocalDate endDate2 = LocalDate.parse(endDate, DATE_FORMAT);
+        long days = ChronoUnit.DAYS.between(startDate2, endDate2);
+
+        List<HotelDetails> rates = hotelDetails.stream().map(hotelData -> {
+            HotelDetails result = new HotelDetails();
+            result.setName(hotelData.getName());
+            if (startDate2.getDayOfWeek().equals(DayOfWeek.SATURDAY)
+                    || endDate2.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                result.setTotalRate((int) (hotelData.getWeekendRate() * days));
+                result.setTotalRate((int) (hotelData.getWeekdayRate() + hotelData.getWeekendRate() * days));
+            } else {
+                result.setTotalRate((int) (hotelData.getWeekdayRate() + hotelData.getWeekendRate() * days));
+            }
+            result.setWeekdayRate(hotelData.getWeekdayRate());
+            result.setWeekendRate(hotelData.getWeekendRate());
+            return result;
+        }).sorted(Comparator.comparing(HotelDetails::getTotalRate)).collect(Collectors.toList());
+
+        System.out.println("The total days are : " + days);
+        rates.forEach(System.out::println);
     }
 
 
-
     public static void main(String[] args) {
-        hotelReservation.addWeekDayAndWeekendRates();
+        hotelReservation.cheapestHotelWeekdayWeekend("11Sept2020","12Sept2020");
 
     }
 }
