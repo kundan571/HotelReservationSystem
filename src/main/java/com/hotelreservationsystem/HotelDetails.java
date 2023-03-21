@@ -19,7 +19,7 @@ public class HotelDetails {
 
     public HotelDetails(String name, int weekendRate, int weekdayRate, int ratings) {
         super();
-//        this.name = name;
+        this.name = name;
         this.weekendRate = weekendRate;
         this.weekdayRate = weekdayRate;
         this.ratings = ratings;
@@ -27,7 +27,7 @@ public class HotelDetails {
 
     public HotelDetails(String name, int ratings, int regularWeekdayPrices, int regularWeekendPrices, int rewardWeekdayPrices, int rewardWeekendPrices) {
         super();
-        //       this.name = name;
+        this.name = name;
         this.ratings = ratings;
         this.regularWeekdayPrices = regularWeekdayPrices;
         this.regularWeekendPrices = regularWeekendPrices;
@@ -142,7 +142,8 @@ public class HotelDetails {
 
     @Override
     public String toString() {
-        return "HotelDetails[" + "name= " + getName() + ", rate= " + getRate() + ", totalRate = " + getTotalRate() + "]";
+        return "HotelDetails[" + "name= " + getName() + ", rate= " + getRate() + ", totalRate = " + getTotalRate()
+                + ", weekdayRate= " + getWeekdayRate() + ", WeekendRate= " + getWeekendRate() + "]";
     }
 }
 

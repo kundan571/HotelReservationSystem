@@ -1,5 +1,6 @@
 package com.hotelreservationsystem;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -44,11 +45,33 @@ public class HotelReservation {
 
         System.out.println("The total days are : " + days);
         rates.forEach(System.out::println);
+    }
+
+    void addWeekDayAndWeekendRates() {
+        System.out.println("Enter how many hotel you want to add:");
+        int noOfHotel = scanner.nextInt();
+        for (int i = 0; i < noOfHotel; i++) {
+            System.out.println("Enter Hotel name");
+            String name = scanner.next();
+            System.out.println("Enter the week Day rate");
+            int weekDay = scanner.nextInt();
+            System.out.println("Enter the weekend rate");
+            int weekend = scanner.nextInt();
+            System.out.println("Enter ratings of hotel");
+            int ratings = scanner.nextInt();
+            HotelDetails hotel1 = new HotelDetails(name,weekDay,weekend,ratings);
+            hotelDetails.add(hotel1);
+            System.out.println(hotelDetails.toString());
+
+        }
 
     }
 
+
+
     public static void main(String[] args) {
-        hotelReservation.cheapestHotel("10Sept2023", "12Sept2023");
+        hotelReservation.addWeekDayAndWeekendRates();
 
     }
 }
+
