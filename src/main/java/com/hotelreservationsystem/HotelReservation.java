@@ -23,7 +23,7 @@ public class HotelReservation {
             int rate = scanner.nextInt();
             HotelDetails hotel1 = new HotelDetails(name, rate);
             hotelDetails.add(hotel1);
-            System.out.println(hotelDetails.toString());
+            System.out.println(hotelDetails);
         }
     }
 
@@ -61,7 +61,7 @@ public class HotelReservation {
             int ratings = scanner.nextInt();
             HotelDetails hotel1 = new HotelDetails(name, weekend, weekDay, ratings);
             hotelDetails.add(hotel1);
-            System.out.println(hotelDetails.toString());
+            System.out.println(hotelDetails);
         }
     }
 
@@ -92,7 +92,7 @@ public class HotelReservation {
 
 
     public static void main(String[] args) {
-        hotelReservation.cheapestHotelWeekdayWeekend("11Sept2020","12Sept2020");
+        hotelReservation.addWeekDayAndWeekendRates();
 
     }
 }

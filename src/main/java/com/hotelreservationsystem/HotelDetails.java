@@ -143,7 +143,7 @@ public class HotelDetails {
     @Override
     public String toString() {
         return "HotelDetails[" + "name= " + getName() + ", rate= " + getRate() + ", totalRate = " + getTotalRate()
-                + ", weekdayRate= " + getWeekdayRate() + ", WeekendRate= " + getWeekendRate() + "]";
+                + ", weekdayRate= " + getWeekdayRate() + ", WeekendRate= " + getWeekendRate() + ", Ratings= " + getRatings() + "]";
     }
 }
 
