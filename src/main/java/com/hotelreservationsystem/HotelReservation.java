@@ -90,10 +90,61 @@ public class HotelReservation {
         rates.forEach(System.out::println);
     }
 
+    void findCheapestBestRatedHotel(String startDate, String endDate) {
+        addWeekDayAndWeekendRates();
+        LocalDate startDate2 = LocalDate.parse(startDate, DATE_FORMAT);
+        LocalDate endDate2 = LocalDate.parse(endDate, DATE_FORMAT);
+        long days = ChronoUnit.DAYS.between(startDate2, endDate2);
+
+        List<HotelDetails> rates = hotelDetails.stream().map(hotelData -> {
+            HotelDetails result = new HotelDetails();
+            result.setName(hotelData.getName());
+            if (startDate2.getDayOfWeek().equals(DayOfWeek.SATURDAY)
+                    || endDate2.getDayOfWeek().equals(DayOfWeek.SUNDAY)) {
+                result.setTotalRate((int) (hotelData.getWeekdayRate() + hotelData.getWeekendRate() * days));
+            } else {
+                result.setTotalRate((int) (hotelData.getWeekdayRate() + hotelData.getWeekendRate() * days));
+            }
+            result.setRatings(hotelData.getRatings());
+            result.setWeekdayRate(hotelData.getWeekdayRate());
+            result.setWeekendRate(hotelData.getWeekendRate());
+            return result;
+        }).sorted(Comparator.comparing(HotelDetails::getRatings).thenComparing(HotelDetails::getTotalRate)).collect(Collectors.toList());
+
+        System.out.println("Total days are: " + days);
+        rates.forEach(System.out::println);
+    }
+
 
     public static void main(String[] args) {
-        hotelReservation.addWeekDayAndWeekendRates();
+        int menu = 1;
+        while (menu != 0) {
+            System.out.println("Enter 1 to add hotel details");
+            System.out.println("Enter 2 to get cheapest hotel in given date range");
+            System.out.println("Enter 3 to add weekday and weekend rates");
+            System.out.println("Enter 4 to get cheapest in weekday and weekend in given date range");
+            System.out.println("Enter 5 to get cheapest best rated hotel");
+            System.out.println("Enter 0 to exit");
+            menu = scanner.nextInt();
 
+            switch (menu) {
+                case 1:
+                    hotelReservation.addHotelDetails();
+                    break;
+                case 2:
+                    hotelReservation.cheapestHotel("10Sept2020", "12Sept2020");
+                    break;
+                case 3:
+                    hotelReservation.addWeekDayAndWeekendRates();
+                    break;
+                case 4:
+                    hotelReservation.cheapestHotelWeekdayWeekend("11Sept2020", "12Sept2020");
+                    break;
+                case 5:
+                    hotelReservation.findCheapestBestRatedHotel("11Sept2020", "12Sept2020");
+                    break;
+            }
+        }
     }
 }
 
